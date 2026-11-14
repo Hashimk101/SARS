@@ -1,0 +1,21 @@
+# .cursorignore — Ignore heavy files to keep AI agent context clean
+node_modules/
+.git/
+dist/
+build/
+.next/
+__pycache__/
+*.pyc
+*.h5
+*.he5
+*.tif
+*.tiff
+*.cog
+*.zip
+*.tar.gz
+data/
+raw_data/
+processed_data/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

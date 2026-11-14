@@ -38,6 +38,7 @@ Any code, visualization, or mathematical formula you generate MUST adhere strict
 
 ## 3. Project Documentation Index
 Consult these documentation files in `docs/` before generating code:
+- [`docs/PROJECT_BLUEPRINT_AND_SYSTEM_ARCHITECTURE.md`](file:///home/hashim/Data/Projects/SARS/docs/PROJECT_BLUEPRINT_AND_SYSTEM_ARCHITECTURE.md): Complete project blueprint, Pakistan study area, and 3-act workflow.
 - [`docs/CHALLENGE_BRIEF_AND_RUBRIC.md`](file:///home/hashim/Data/Projects/SARS/docs/CHALLENGE_BRIEF_AND_RUBRIC.md): NASA scoring rubric & 5 evaluation criteria.
 - [`docs/NISAR_DATA_ARCHITECTURE_2026.md`](file:///home/hashim/Data/Projects/SARS/docs/NISAR_DATA_ARCHITECTURE_2026.md): Complete 2026 data specs, HDF5 hierarchy, and search parameters.
 - [`docs/SAR_PHYSICS_AND_ALGORITHMS.md`](file:///home/hashim/Data/Projects/SARS/docs/SAR_PHYSICS_AND_ALGORITHMS.md): False-color RGB composite recipes, speckle math, and physical drivers.

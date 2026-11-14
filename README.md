@@ -120,6 +120,7 @@ For judges, researchers, and developers seeking deep technical specifications:
 
 | Document | Description |
 | :--- | :--- |
+| [**Project Master Blueprint**](file:///home/hashim/Data/Projects/SARS/docs/PROJECT_BLUEPRINT_AND_SYSTEM_ARCHITECTURE.md) | Complete Pakistan case study, multi-sensor data fusion, and 3-act workflow |
 | [**Challenge Brief & Rubric**](file:///home/hashim/Data/Projects/SARS/docs/CHALLENGE_BRIEF_AND_RUBRIC.md) | NASA challenge objectives, 5 scoring criteria, and target awards |
 | [**NISAR 2026 Data Architecture**](file:///home/hashim/Data/Projects/SARS/docs/NISAR_DATA_ARCHITECTURE_2026.md) | Exact HDF5 internal paths, product levels (GCOV vs GUNW), and ASF queries |
 | [**SAR Physics & Algorithms**](file:///home/hashim/Data/Projects/SARS/docs/SAR_PHYSICS_AND_ALGORITHMS.md) | Lee speckle filtering formulas, linear-to-dB math, and FCC color recipes |

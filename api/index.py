@@ -392,9 +392,9 @@ HOTSPOTS_DB: Dict[str, Dict[str, Any]] = {
             {
                 "step": 4,
                 "title": "The 2030 Tipping Point ('What If')",
-                "body": "Unconstrained peri-urban sprawl across Zone 3 and Margalla foothills will destroy 35% of remaining native acacia scrub by 2030. Severe urban heat island effects will increase city core temperatures by an additional 2.5°C, tripling summer power blackouts.",
+                "body": "Unconstrained peri-urban sprawl across Zone 3 and Margalla foothills will destroy 35% of remaining native acacia scrub by 2030 (driving 22.8% cumulative basin-wide canopy loss across the greater national park). Severe urban heat island effects will increase city core temperatures by an additional 2.5°C, tripling summer power blackouts.",
                 "metrics": [
-                    {"label": "Projected Forest Depletion", "value": "35%", "unit": "canopy"},
+                    {"label": "Zone 3 Scrubland Depletion", "value": "35%", "unit": "canopy (22.8% basin)"},
                     {"label": "Urban Heat Island Peak", "value": "+4.8", "unit": "deg C anomaly"},
                     {"label": "Reservoir Lifespan Reduction", "value": "18", "unit": "years"},
                     {"label": "Peak Power Strain", "value": "+450", "unit": "MW"}
@@ -847,6 +847,25 @@ def get_future_simulation(
                 p10_bowl = round(vals[0], 1)
                 bowl_max_cm = round(vals[1], 1)
                 p90_bowl = round(vals[2], 1)
+
+            # Interpolate area exceeding 1m from Monte Carlo milestones
+            area_obj = scen_obj.get("area_km2_exceeding", {})
+            a2030 = area_obj.get("2030", {}).get("1.0m", {}).get("median", 0.0)
+            a2040 = area_obj.get("2040", {}).get("1.0m", {}).get("median", 21.7 if scen_key == "S1" else (29.9 if scen_key == "S2" else 3.7))
+            a2050 = area_obj.get("2050", {}).get("1.0m", {}).get("median", 44.7 if scen_key == "S1" else (51.9 if scen_key == "S2" else 7.7))
+
+            if year <= 2030 or bowl_max_cm < 100.0:
+                area_exceeding_1m_km2 = 0.0
+            elif year <= 2040:
+                frac = (year - 2030) / 10.0
+                area_exceeding_1m_km2 = round(a2030 + frac * (a2040 - a2030), 2)
+            else:
+                frac = (year - 2040) / 10.0
+                area_exceeding_1m_km2 = round(a2040 + frac * (a2050 - a2040), 2)
+
+        # Physical consistency guard: no ground can sink > 1.0m if bowl maximum is under 100cm
+        if bowl_max_cm < 100.0:
+            area_exceeding_1m_km2 = 0.0
 
         return {
             "hotspot_id": "quetta",

@@ -130,3 +130,18 @@ def test_monte_carlo_distribution_percentiles():
     assert p["p90_cm"] is not None
     # Verify logical ordering: p10 <= median <= p90
     assert p["p10_cm"] <= p["median_cm"] <= p["p90_cm"]
+
+
+def test_quetta_area_1m_physical_guard():
+    """Verify that when bowl maximum is < 100cm (e.g., 2030), area exceeding 1m is strictly 0.0."""
+    resp_2030 = client.get("/api/hotspots/quetta/future-simulation?year=2030&scenario=current_trend")
+    assert resp_2030.status_code == 200
+    data_2030 = resp_2030.json()
+    assert data_2030["bowl_maximum_sinking_cm"] < 100.0
+    assert data_2030["area_exceeding_1m_km2"] == 0.0
+
+    resp_2050 = client.get("/api/hotspots/quetta/future-simulation?year=2050&scenario=current_trend")
+    assert resp_2050.status_code == 200
+    data_2050 = resp_2050.json()
+    assert data_2050["bowl_maximum_sinking_cm"] > 100.0
+    assert data_2050["area_exceeding_1m_km2"] > 40.0

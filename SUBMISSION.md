@@ -5,10 +5,12 @@
 ---
 
 ## Project Name
-**Sinking City: Quetta** **[TEAM: final name]**
+**SAR-Pulse: Dancing with the SARs** *(Flagship Validation Study: Sinking City Quetta)* **[TEAM: final name]**
 
 ## High-Level Project Summary
-Quetta, home to more than two million people in Pakistan's arid Balochistan province, is sinking. Decades of groundwater over-pumping are compacting the clay beneath the valley; published studies estimate up to 2.7 m of subsidence since 2003. We used radar interferometry from the new NASA–ISRO NISAR satellite to measure this from orbit through 2026. Combining NISAR's ascending and descending views, we mapped a sinking bowl centred on the city: the ground inside it is moving straight down by a median of about 9 cm per year, and the core sinks fastest. Independent ESA Sentinel-1 data match the NISAR map (correlation r = 0.89). We then turned the measurements into 2050 risk scenarios. If today's rates continue, about 46 km² of the valley sinks at least a further metre by 2050, affecting about 49,000 buildings and 860,000 people. If pumping is brought under control, that falls to about 6 km² and 7,000 buildings. The project gives water managers, planners and residents an open, repeatable way to see where the ground is moving, how fast, and what is at stake.
+Across four critical Pakistani biomes—urban subsidence, mega-monsoon inundation, protected forest fragmentation, and Himalayan cryosphere surge—ground radar observations have historically been sparse. **SAR-Pulse** transforms NASA-ISRO NISAR L-band and ISRO S-band radar data into an open, real-time national radar observatory.
+
+In our flagship deep-dive validation study, we focus on **Quetta**, home to over two million people in arid Balochistan where groundwater over-pumping is compacting the valley floor. Published studies estimate up to 2.7 m of subsidence since 2003. We used radar interferometry from the new NASA–ISRO NISAR satellite to measure this from orbit through 2026. Combining NISAR's ascending and descending views, we mapped a sinking bowl centred on the city: the ground inside it is moving straight down by a median of about 9 cm per year, and the core sinks fastest. Independent ESA Sentinel-1 data match the NISAR map (correlation r = 0.89). We then turned the measurements into 2050 risk scenarios. If today's rates continue, about 46 km² of the valley sinks at least a further metre by 2050, affecting about 49,000 buildings and 860,000 people. If pumping is brought under control, that falls to about 6 km² and 7,000 buildings. The platform gives water managers, planners, and residents across Pakistan an open, repeatable way to see where the ground and ecosystems are moving, how fast, and what is at stake.
 
 ## Link to Project Demo
 **[TODO — 7-slide deck or ≤30-second video; public link, English]**

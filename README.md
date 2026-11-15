@@ -6,6 +6,7 @@
 
 [![NASA Space Apps](https://img.shields.io/badge/NASA-Space_Apps_2026-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/)
 [![NISAR L2 GCOV](https://img.shields.io/badge/NISAR-L2__GCOV__RTC-00F0FF?style=for-the-badge)](https://nisar.jpl.nasa.gov/)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hashimk101/SARS/blob/main/notebooks/NISAR_Pipeline_Colab.ipynb)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10B981?style=for-the-badge)](LICENSE)
 
 ---
@@ -91,25 +92,26 @@ flowchart LR
 
 ## 🚀 Quickstart (Run Locally in 60 Seconds)
 
-### 1. Interactive Web Dashboard
+### 1. Run the FastAPI Serverless Backend (Local & Vercel)
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/dancing-with-the-sars.git
-cd dancing-with-the-sars/web
-
-# Install dependencies and start local dev server
-npm install
-npm run dev
-# Open http://localhost:5173 in your browser
-```
-
-### 2. Python SAR Data Processing (Optional for Custom Scenes)
-```bash
-# Install Python scientific dependencies
+# Install lightweight backend dependencies
 pip install -r requirements.txt
 
-# Run preprocessing on a NISAR granule
-python scripts/process_gcov.py --input data/raw/sample_nisar.h5 --output data/processed/
+# Start local FastAPI server
+uvicorn api.index:app --reload --port 8000
+# API docs available at: http://localhost:8000/docs
+```
+
+### 2. Run the Automated Test Suite (24 Tests)
+```bash
+PYTHONPATH=. pytest tests/test_api.py -v
+```
+
+### 3. Run Standalone NISAR Pipeline / Google Colab
+- Open the turnkey notebook in Google Cloud: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hashimk101/SARS/blob/main/notebooks/NISAR_Pipeline_Colab.ipynb)
+- Or run locally:
+```bash
+python scripts/process_gcov.py --simulate --region indus --output /tmp/indus_radar.json
 ```
 
 ---

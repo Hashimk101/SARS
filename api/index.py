@@ -20,7 +20,7 @@ import urllib.request
 import urllib.parse
 from typing import List, Dict, Any, Optional
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from api.models_cache import HOTSPOT_MODELS
@@ -30,8 +30,22 @@ app = FastAPI(
     description="Full Backend API for NASA Space Apps 2026: Dancing with the SARs",
     version="2.1.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    redirect_slashes=False
 )
+
+@app.exception_handler(404)
+async def custom_404_handler(request: Request, exc):
+    return JSONResponse(
+        status_code=404,
+        content={
+            "detail": f"Path '{request.url.path}' not found.",
+            "received_url_path": request.url.path,
+            "scope_path": request.scope.get("path"),
+            "scope_root_path": request.scope.get("root_path"),
+            "docs_url": "/docs"
+        }
+    )
 
 # Enable CORS for local development, production, and Vercel hosting
 app.add_middleware(
@@ -669,7 +683,34 @@ HOTSPOTS_FIGURES_DB: Dict[str, List[Dict[str, Any]]] = {
 # API ENDPOINTS
 # ============================================================================
 
+@app.get("/")
+def api_root():
+    """
+    Root status and API navigation index for SAR-Pulse.
+    """
+    return {
+        "status": "online",
+        "service": "SAR-Pulse Multi-Mission Satellite Fusion API",
+        "version": "2.1.0",
+        "challenge": "NASA Space Apps 2026: Dancing with the SARs",
+        "docs_url": "/docs",
+        "openapi_url": "/openapi.json",
+        "active_hotspots": ["indus", "quetta", "islamabad", "siachen"],
+        "endpoints": {
+            "health": "/api/health",
+            "hotspots": "/api/hotspots",
+            "indus": "/api/hotspots/indus",
+            "quetta": "/api/hotspots/quetta",
+            "islamabad": "/api/hotspots/islamabad",
+            "siachen": "/api/hotspots/siachen",
+            "satellites": "/api/satellites/query?lat=26.85&lon=68.10",
+            "satellite_layers": "/api/satellites/layers"
+        }
+    }
+
+
 @app.get("/api/health")
+@app.get("/health")
 def health_check():
     """
     Health check and platform status endpoint for SAR-Pulse.
@@ -693,6 +734,7 @@ def health_check():
 
 
 @app.get("/api/hotspots", response_model=List[Dict[str, Any]])
+@app.get("/hotspots", response_model=List[Dict[str, Any]])
 def get_all_hotspots():
     """
     Returns the summary list of all 4 Pakistan hotspots.
@@ -715,6 +757,7 @@ def get_all_hotspots():
 
 
 @app.get("/api/hotspots/{hotspot_id}")
+@app.get("/hotspots/{hotspot_id}")
 def get_hotspot_detail(
     hotspot_id: str, 
     include_live_sar: bool = Query(True, description="Fetch real-time granules from NASA ASF DAAC")
@@ -746,6 +789,7 @@ def get_hotspot_detail(
 
 
 @app.get("/api/hotspots/{hotspot_id}/timeline")
+@app.get("/hotspots/{hotspot_id}/timeline")
 def get_hotspot_timeline(hotspot_id: str):
     """
     Returns detailed multi-date sensor time-series data for charting (Recharts / Chart.js).
@@ -765,6 +809,7 @@ def get_hotspot_timeline(hotspot_id: str):
 
 
 @app.get("/api/hotspots/{hotspot_id}/drivers")
+@app.get("/hotspots/{hotspot_id}/drivers")
 def get_hotspot_drivers(hotspot_id: str):
     """
     Returns Machine Learning feature attribution (Random Forest / Gradient Boosting / SHAP equivalent)
@@ -786,6 +831,7 @@ def get_hotspot_drivers(hotspot_id: str):
 
 
 @app.get("/api/hotspots/{hotspot_id}/future-simulation")
+@app.get("/hotspots/{hotspot_id}/future-simulation")
 def get_future_simulation(
     hotspot_id: str,
     year: int = Query(2030, ge=2026, le=2050, description="Target forecast year (2026-2050)"),
@@ -1003,6 +1049,7 @@ def get_future_simulation(
 
 
 @app.get("/api/hotspots/{hotspot_id}/figures")
+@app.get("/hotspots/{hotspot_id}/figures")
 def get_hotspot_figures(hotspot_id: str):
     """
     Returns pre-rendered NISAR interferograms, flood maps, and cross-validation figures.
@@ -1018,6 +1065,7 @@ def get_hotspot_figures(hotspot_id: str):
 
 
 @app.get("/api/figures/{figure_path:path}")
+@app.get("/figures/{figure_path:path}")
 def serve_figure(figure_path: str):
     """
     Streams high-resolution PNG/JPG figures and interferograms directly from the repository.
@@ -1036,6 +1084,7 @@ def serve_figure(figure_path: str):
 
 
 @app.get("/api/satellites/query")
+@app.get("/satellites/query")
 def query_any_coordinate(
     lat: float = Query(..., description="Latitude"),
     lon: float = Query(..., description="Longitude")
@@ -1065,6 +1114,7 @@ def query_any_coordinate(
 
 
 @app.get("/api/satellites/layers")
+@app.get("/satellites/layers")
 def get_satellite_map_layers():
     """
     Returns pre-configured tile URLs for the frontend map (ESRI, NASA GIBS, CartoDB).

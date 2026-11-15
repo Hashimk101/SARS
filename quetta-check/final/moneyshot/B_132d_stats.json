@@ -1,0 +1,48 @@
+{
+ "pair": [
+  "2026-06-17",
+  "2026-10-27"
+ ],
+ "days": 132,
+ "multilook_m": 60.0,
+ "coh_mean_all": 0.47009286284446716,
+ "coh_mean_bowl": 0.402080774307251,
+ "coh_mean_outside": 0.4885832965373993,
+ "coh_median_bowl": 0.4173964858055115,
+ "frac_coh_gt_0p3_bowl": 0.7447191011235955,
+ "frac_coh_gt_0p3_all": 0.8236921183157743,
+ "ref_phase_rad": -2.5183072090148926,
+ "wavelength_m": 0.2419632429378531,
+ "fringe_cm": 12.098162146892655,
+ "versions": [
+  "1.0.11",
+  "1.0.20"
+ ],
+ "coreg": {
+  "patch": 512,
+  "median_row_px": 0.07977665588259697,
+  "median_col_px": -0.21277303248643875,
+  "n_bad": 61,
+  "n": 304
+ },
+ "EW_contiguous_run_deg": [
+  66.97068493582245,
+  67.03857527551567
+ ],
+ "EW_unwrapped_range_cycles": 0.524189829826355,
+ "EW_centre_minus_run_ends_cycles": [
+  0.4064236283302307,
+  0.41827043890953064
+ ],
+ "NS_contiguous_run_deg": [
+  30.208967603769107,
+  30.172171004695844
+ ],
+ "NS_unwrapped_range_cycles": 0.2453584372997284,
+ "NS_centre_minus_run_ends_cycles": [
+  0.19920915365219116,
+  -0.012910859659314156
+ ],
+ "highpass_phase_city_3km_rad": 0.8740484118461609,
+ "highpass_los_cm_city_away_positive": 1.682964563369751
+}

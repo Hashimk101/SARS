@@ -1,0 +1,20 @@
+{
+ "label": "PROVISIONAL",
+ "n_samples": 20000,
+ "spatial_block_cv_r2": 0.40718507766723633,
+ "permutation_importance_heldout": {
+  "elevation_m": 0.47561980903061996,
+  "dist_to_valley_axis_km": 0.2556878557598532,
+  "dist_to_valley_edge_km": 0.23279940362729676,
+  "slope_deg": 0.02763499969725003,
+  "building_density_per_km2": 0.26891196204472284
+ },
+ "impurity_importance_fullfit": {
+  "elevation_m": 0.2917512539482812,
+  "dist_to_valley_axis_km": 0.21040969150574215,
+  "dist_to_valley_edge_km": 0.23244852869910537,
+  "slope_deg": 0.016469078172222366,
+  "building_density_per_km2": 0.24892144767464902
+ },
+ "caveat": "Correlative only; short NISAR record; spatially autocorrelated; building density is a proxy; block-CV R2 can be negative, which means no transferable skill."
+}

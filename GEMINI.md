@@ -38,6 +38,7 @@ Any code, visualization, or mathematical formula you generate MUST adhere strict
 
 ## 3. Project Documentation Index
 Consult these documentation files in `docs/` before generating code:
+- [`docs/BACKEND_API_SPECIFICATION.md`](file:///home/hashim/Data/Projects/SARS/docs/BACKEND_API_SPECIFICATION.md): **FRONTEND DEVELOPER & CLAUDE GUIDE:** Complete FastAPI endpoints, JSON contracts, and TypeScript interfaces for the 4 Pakistan map dots.
 - [`docs/PROJECT_BLUEPRINT_AND_SYSTEM_ARCHITECTURE.md`](file:///home/hashim/Data/Projects/SARS/docs/PROJECT_BLUEPRINT_AND_SYSTEM_ARCHITECTURE.md): Complete project blueprint, Pakistan study area, and 3-act workflow.
 - [`docs/CHALLENGE_BRIEF_AND_RUBRIC.md`](file:///home/hashim/Data/Projects/SARS/docs/CHALLENGE_BRIEF_AND_RUBRIC.md): NASA scoring rubric & 5 evaluation criteria.
 - [`docs/NISAR_DATA_ARCHITECTURE_2026.md`](file:///home/hashim/Data/Projects/SARS/docs/NISAR_DATA_ARCHITECTURE_2026.md): Complete 2026 data specs, HDF5 hierarchy, and search parameters.

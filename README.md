@@ -12,8 +12,8 @@
 ---
 
 ## ⚡ Quick Links for NASA Judges
-- 🚀 **Live Interactive Demo:** [Launch Dancing with the SARs](https://dancing-with-the-sars.vercel.app) *(Pre-computed for 60fps instant loading)*
-- 🎬 **Project Demo Video (YouTube):** [Watch the 3-Minute Video Pitch](https://youtube.com)
+- 🚀 **Live Interactive Demo:** *[Vercel Live URL — Deployment In Progress with Teammate Frontend]*
+- 🎬 **Project Demo Video (YouTube):** *[TODO: 3-Minute Pitch Video Link]*
 - 📊 **Presentation Slides:** [View 7-Slide Deck (PDF)](docs/)
 - 📜 **NASA Space Apps Project Page:** [Official Submission](https://www.spaceappschallenge.org)
 

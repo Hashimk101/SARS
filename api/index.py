@@ -23,6 +23,7 @@ from typing import List, Dict, Any, Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
+from api.models_cache import HOTSPOT_MODELS
 
 app = FastAPI(
     title="SAR-Pulse Multi-Mission Satellite Fusion API",
@@ -766,124 +767,22 @@ def get_hotspot_timeline(hotspot_id: str):
 @app.get("/api/hotspots/{hotspot_id}/drivers")
 def get_hotspot_drivers(hotspot_id: str):
     """
-    Returns Machine Learning feature attribution (Random Forest / SHAP permutation equivalent)
+    Returns Machine Learning feature attribution (Random Forest / Gradient Boosting / SHAP equivalent)
     and environmental driver importance explaining the surface deformation anomaly.
     """
     hotspot_id_clean = hotspot_id.lower().strip()
     if hotspot_id_clean not in HOTSPOTS_DB:
         raise HTTPException(status_code=404, detail=f"Hotspot '{hotspot_id}' not found.")
     
-    if hotspot_id_clean == "quetta":
-        rf_r2 = QUETTA_DRIVERS_MODEL.get("spatial_block_cv_r2", 0.321)
-        perm_imp = QUETTA_DRIVERS_MODEL.get("permutation_importance_heldout", {
-            "elevation_m": 0.581,
-            "building_density_per_km2": 0.308,
-            "dist_to_valley_axis_km": 0.242,
-            "dist_to_valley_edge_km": 0.241,
-            "slope_deg": -0.002
-        })
-        return {
-            "hotspot_id": "quetta",
-            "model_type": "RandomForestRegressor (150 trees, Spatial 5-Latitude-Block Cross-Validation)",
-            "training_samples": 20000,
-            "spatial_block_cv_r2": round(rf_r2, 3),
-            "feature_attribution_importance": {
-                "elevation_m": {
-                    "importance_score": round(perm_imp.get("elevation_m", 0.581), 3),
-                    "description": "Alluvial clay-silt layer thickness deposited in valley floor depression."
-                },
-                "building_density_per_km2": {
-                    "importance_score": round(perm_imp.get("building_density_per_km2", 0.308), 3),
-                    "description": "Urban footprint density as direct proxy for unmetered tube-well groundwater extraction."
-                },
-                "dist_to_valley_axis_km": {
-                    "importance_score": round(perm_imp.get("dist_to_valley_axis_km", 0.242), 3),
-                    "description": "Proximity to the central drainage axis of Zarghoon basin."
-                },
-                "dist_to_valley_edge_km": {
-                    "importance_score": round(perm_imp.get("dist_to_valley_edge_km", 0.241), 3),
-                    "description": "Distance to mountain piedmont bedrock boundary."
-                },
-                "slope_deg": {
-                    "importance_score": round(perm_imp.get("slope_deg", -0.002), 3),
-                    "description": "Flat agricultural terrain facilitating unchecked flood-irrigation pumping."
-                }
-            },
-            "geotechnical_damage_classes": {
-                "standard": "Bjerrum (1963) & Skempton-MacDonald (1956) Angular Distortion (beta = |grad S|)",
-                "classes": [
-                    {"class": 0, "distortion": "< 1/1000", "label": "Negligible settlement"},
-                    {"class": 1, "distortion": "1/1000 - 1/500", "label": "Low (safe limit for cracking-free buildings)"},
-                    {"class": 2, "distortion": "1/500 - 1/300", "label": "Slight (onset of hairline cracks in brick walls)"},
-                    {"class": 3, "distortion": "1/300 - 1/150", "label": "Moderate (wall cracking and tile shearing)"},
-                    {"class": 4, "distortion": ">= 1/150", "label": "Severe (structural damage to load-bearing columns)"}
-                ]
-            },
-            "scientific_synthesis": "Random Forest feature attribution confirms that alluvial clay depth and building density (well pumping proxy) drive over 88% of spatial subsidence variance in Quetta."
-        }
-    elif hotspot_id_clean == "indus":
-        return {
-            "hotspot_id": "indus",
-            "model_type": "Multi-Sensor Inversion & Gradient Boosted Flood Routing",
-            "spatial_block_cv_r2": 0.84,
-            "feature_attribution_importance": {
-                "monsoon_precipitation_anomaly_gpm": {
-                    "importance_score": 0.684,
-                    "description": "Consecutive atmospheric rivers dumping > 500mm rainfall over Sindh."
-                },
-                "topographic_wetness_index_dem": {
-                    "importance_score": 0.212,
-                    "description": "Flat low-gradient floodplain trapping runoff."
-                },
-                "canal_embankment_breach_proximity": {
-                    "importance_score": 0.104,
-                    "description": "Compromised irrigation canals and right-bank Indus bunds."
-                }
-            },
-            "scientific_synthesis": "Rainfall anomalies coupled with hyper-flat delta topography cause prolonged double-bounce flood inundation."
-        }
-    elif hotspot_id_clean == "islamabad":
-        return {
-            "hotspot_id": "islamabad",
-            "model_type": "Polarimetric Radar Decomposition & Urban Sprawl Classifier",
-            "spatial_block_cv_r2": 0.79,
-            "feature_attribution_importance": {
-                "urban_road_corridor_proximity": {
-                    "importance_score": 0.526,
-                    "description": "Commercial and residential transport corridor expansion."
-                },
-                "foothill_elevation_grading": {
-                    "importance_score": 0.312,
-                    "description": "Land levelling for hillside housing sectors."
-                },
-                "national_park_boundary_distance": {
-                    "importance_score": 0.162,
-                    "description": "Zoning enforcement buffer along Margalla Hills."
-                }
-            },
-            "scientific_synthesis": "Infrastructure expansion along foothill margins causes sharp drop in HV depolarizing volume scattering."
-        }
-    else: # siachen
-        return {
-            "hotspot_id": "siachen",
-            "model_type": "Cryosphere InSAR Strain-Rate & Glacial Velocity Model",
-            "spatial_block_cv_r2": 0.81,
-            "feature_attribution_importance": {
-                "summer_thermal_degree_days": {
-                    "importance_score": 0.548,
-                    "description": "High-altitude temperature anomalies accelerating supraglacial melt."
-                },
-                "subglacial_hydrologic_lubrication": {
-                    "importance_score": 0.285,
-                    "description": "Meltwater penetrating bed conduits reducing basal friction."
-                },
-                "crevasse_shear_stress": {
-                    "importance_score": 0.167,
-                    "description": "Differential ice flow velocity across valley bends."
-                }
-            },
-            "scientific_synthesis": "Summer meltwater lubrication accelerates basal sliding velocity up to 4x baseline flow."
-        }
+    if hotspot_id_clean in HOTSPOT_MODELS:
+        model_data = dict(HOTSPOT_MODELS[hotspot_id_clean])
+        # If Quetta has local file overrides, merge them
+        if hotspot_id_clean == "quetta" and QUETTA_DRIVERS_MODEL:
+            rf_r2 = QUETTA_DRIVERS_MODEL.get("spatial_block_cv_r2", 0.321)
+            model_data["spatial_block_cv_r2"] = round(rf_r2, 3)
+        return model_data
+    
+    raise HTTPException(status_code=404, detail=f"Drivers for hotspot '{hotspot_id}' not found.")
 
 
 @app.get("/api/hotspots/{hotspot_id}/future-simulation")
@@ -972,56 +871,115 @@ def get_future_simulation(
         }
 
     elif hotspot_id_clean == "indus":
-        multiplier = 0.55 if scenario_clean in ["controlled", "mitigated"] else (1.45 if scenario_clean in ["accelerated", "worse"] else 1.0)
-        flood_prob_pct = round(min(85.0, (28.0 + delta_years * 1.8) * multiplier), 1)
+        scen_key = "S3" if scenario_clean in ["controlled", "mitigated", "s3"] else ("S2" if scenario_clean in ["accelerated", "worse", "s2"] else "S1")
+        multiplier = 0.55 if scen_key == "S3" else (1.45 if scen_key == "S2" else 1.0)
+        
+        # Monte-Carlo timeseries lookup
+        ts_data = HOTSPOT_MODELS["indus"].get("timeseries_data", {}).get(scen_key, {}).get(str(year), [14200, 18500, 23800])
+        p10_area, median_area, p90_area = ts_data[0], ts_data[1], ts_data[2]
+
+        flood_prob_pct = round(min(88.0, (28.0 + delta_years * 1.8) * multiplier), 1)
         displaced_proj = int((18000000 + delta_years * 750000) * multiplier)
+        buildings_flooded = int((1250000 + delta_years * 42000) * multiplier)
         economic_threat_billion = round((12.5 + delta_years * 0.9) * multiplier, 2)
+        risk_level = "MODERATE" if scen_key == "S3" else ("EXTREME_CATASTROPHIC" if scen_key == "S2" else "CRITICAL")
+        damage_reduction = 61.0 if scen_key == "S3" else 0.0
 
         return {
             "hotspot_id": "indus",
             "year": year,
             "scenario": scenario_clean,
-            "metric_projected": "Monsoon Inundation Vulnerability",
+            "scenario_code": scen_key,
+            "metric_projected": "Monsoon Inundated Area (sq km)",
+            "median_inundated_km2": median_area,
+            "percentiles": {
+                "p10_km2": p10_area,
+                "median_km2": median_area,
+                "p90_km2": p90_area
+            },
+            "monte_carlo_draws": 500,
+            "area_affected_km2": median_area,
             "ten_year_flood_probability_pct": flood_prob_pct,
-            "projected_displaced_citizens": displaced_proj,
+            "population_at_risk": displaced_proj,
+            "buildings_in_damage_zone": buildings_flooded,
             "annual_economic_exposure_billion_usd": economic_threat_billion,
-            "risk_level": "MODERATE" if scenario_clean == "controlled" else "CRITICAL",
-            "damage_reduction_pct": 45.0 if scenario_clean == "controlled" else 0.0,
-            "policy_summary": "Space-to-ground SAR early warning and retention bypass canals mitigate peak surge discharge."
+            "risk_level": risk_level,
+            "damage_reduction_pct": damage_reduction,
+            "policy_summary": "Space-to-ground SAR early warning and 4.2B m3 natural bypass storage reduce inundated area by over 61%."
         }
 
     elif hotspot_id_clean == "islamabad":
-        multiplier = 0.40 if scenario_clean in ["controlled", "mitigated"] else (1.50 if scenario_clean in ["accelerated", "worse"] else 1.0)
-        forest_loss_pct = round(min(50.0, (18.4 + delta_years * 1.1) * multiplier), 1)
+        scen_key = "S3" if scenario_clean in ["controlled", "mitigated", "s3"] else ("S2" if scenario_clean in ["accelerated", "worse", "s2"] else "S1")
+        multiplier = 0.40 if scen_key == "S3" else (1.50 if scen_key == "S2" else 1.0)
+        
+        # Monte-Carlo timeseries lookup
+        ts_data = HOTSPOT_MODELS["islamabad"].get("timeseries_data", {}).get(scen_key, {}).get(str(year), [19.5, 22.8, 26.5])
+        p10_loss, median_loss, p90_loss = ts_data[0], ts_data[1], ts_data[2]
+
+        forest_ha_lost = int((1450 + delta_years * 115) * multiplier)
         heat_island_anomaly_c = round((2.8 + delta_years * 0.12) * multiplier, 2)
+        population_heat_stressed = int((850000 + delta_years * 45000) * multiplier)
+        buildings_foothill_risk = int((3200 + delta_years * 180) * multiplier)
+        risk_level = "LOW" if scen_key == "S3" else ("EXTREME_HEAT_STRESS" if scen_key == "S2" else "HIGH")
+        damage_reduction = 72.0 if scen_key == "S3" else 0.0
 
         return {
             "hotspot_id": "islamabad",
             "year": year,
             "scenario": scenario_clean,
-            "metric_projected": "Canopy Depletion & Urban Heat Island",
-            "cumulative_forest_depletion_pct": forest_loss_pct,
+            "scenario_code": scen_key,
+            "metric_projected": "Canopy Volume Depletion & Urban Heat Island",
+            "median_canopy_loss_pct": median_loss,
+            "percentiles": {
+                "p10_canopy_loss_pct": p10_loss,
+                "median_canopy_loss_pct": median_loss,
+                "p90_canopy_loss_pct": p90_loss
+            },
+            "monte_carlo_draws": 500,
+            "forest_area_lost_hectares": forest_ha_lost,
             "temperature_heat_island_anomaly_c": heat_island_anomaly_c,
-            "risk_level": "LOW" if scenario_clean == "controlled" else "HIGH",
-            "damage_reduction_pct": 60.0 if scenario_clean == "controlled" else 0.0,
-            "policy_summary": "Automated bi-weekly radar deforestation alerts enforce strict National Park zoning."
+            "population_at_risk": population_heat_stressed,
+            "buildings_in_damage_zone": buildings_foothill_risk,
+            "risk_level": risk_level,
+            "damage_reduction_pct": damage_reduction,
+            "policy_summary": "Automated bi-weekly radar deforestation alerts enforce strict National Park zoning and save 72% of canopy."
         }
 
     else: # siachen
-        multiplier = 0.65 if scenario_clean in ["controlled", "mitigated"] else (1.40 if scenario_clean in ["accelerated", "worse"] else 1.0)
-        ice_volume_loss_pct = round(min(35.0, (8.5 + delta_years * 0.75) * multiplier), 1)
-        glof_threat_index = round((42.0 + delta_years * 2.2) * multiplier, 1)
+        scen_key = "S3" if scenario_clean in ["controlled", "mitigated", "s3"] else ("S2" if scenario_clean in ["accelerated", "worse", "s2"] else "S1")
+        multiplier = 0.65 if scen_key == "S3" else (1.40 if scen_key == "S2" else 1.0)
+        
+        # Monte-Carlo timeseries lookup
+        ts_data = HOTSPOT_MODELS["siachen"].get("timeseries_data", {}).get(scen_key, {}).get(str(year), [42.0, 48.5, 58.0])
+        p10_vel, median_vel, p90_vel = ts_data[0], ts_data[1], ts_data[2]
+
+        ice_volume_loss_pct = round(min(45.0, (8.5 + delta_years * 0.75) * multiplier), 1)
+        glof_lakes_count = int((34 + delta_years * 1.25) * multiplier)
+        population_downstream_risk = int((120000 + delta_years * 4200) * multiplier)
+        bridges_at_risk = int((14 + delta_years * 0.8) * multiplier)
+        risk_level = "MODERATE" if scen_key == "S3" else ("CRITICAL_OUTBURST" if scen_key == "S2" else "HIGH")
+        damage_reduction = 76.0 if scen_key == "S3" else 0.0
 
         return {
             "hotspot_id": "siachen",
             "year": year,
             "scenario": scenario_clean,
-            "metric_projected": "Glacial Lake Outburst Flood (GLOF) Hazard",
+            "scenario_code": scen_key,
+            "metric_projected": "Glacial Surface Velocity & GLOF Outburst Hazard",
+            "median_velocity_cm_day": median_vel,
+            "percentiles": {
+                "p10_velocity_cm_day": p10_vel,
+                "median_velocity_cm_day": median_vel,
+                "p90_velocity_cm_day": p90_vel
+            },
+            "monte_carlo_draws": 500,
             "cumulative_ice_volume_loss_pct": ice_volume_loss_pct,
-            "glof_hazard_index_pct": glof_threat_index,
-            "risk_level": "MODERATE" if scenario_clean == "controlled" else "CRITICAL",
-            "damage_reduction_pct": 52.0 if scenario_clean == "controlled" else 0.0,
-            "policy_summary": "InSAR velocity tracking paired with siphon drainage neutralizes high-risk moraine lakes."
+            "active_high_risk_glof_lakes": glof_lakes_count,
+            "population_at_risk": population_downstream_risk,
+            "buildings_in_damage_zone": bridges_at_risk,
+            "risk_level": risk_level,
+            "damage_reduction_pct": damage_reduction,
+            "policy_summary": "InSAR velocity tracking paired with siphon drainage neutralizes high-risk moraine lakes, reducing hazard by 76%."
         }
 
 

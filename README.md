@@ -12,7 +12,7 @@
 ---
 
 ## ⚡ Quick Links for NASA Judges
-- 🚀 **Live Interactive Demo:** *[Vercel Live URL — Deployment In Progress with Teammate Frontend]*
+- 🚀 **Live Interactive Demo:** [Launch SAR-Pulse Platform](https://sars-visualize.vercel.app/) *(API Docs: [https://sars-visualize.vercel.app/docs](https://sars-visualize.vercel.app/docs))*
 - 🎬 **Project Demo Video (YouTube):** *[TODO: 3-Minute Pitch Video Link]*
 - 📊 **Presentation Slides:** [View 7-Slide Deck (PDF)](docs/)
 - 📜 **NASA Space Apps Project Page:** [Official Submission](https://www.spaceappschallenge.org)

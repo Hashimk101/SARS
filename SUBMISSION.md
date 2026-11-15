@@ -16,7 +16,7 @@ In our flagship deep-dive validation study, we focus on **Quetta**, home to over
 **[TODO — 7-slide deck or ≤30-second video; public link, English]**
 
 ## Link to Final Project
-**[TODO — public repository/website link; must open without login]**
+https://sars-visualize.vercel.app/ *(Zero login required; interactive platform and API documentation)*
 
 ## Detailed Project Description
 

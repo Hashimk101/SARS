@@ -44,11 +44,32 @@ Consult these documentation files in `docs/` before generating code:
 - [`docs/NISAR_DATA_ARCHITECTURE_2026.md`](file:///home/hashim/Data/Projects/SARS/docs/NISAR_DATA_ARCHITECTURE_2026.md): Complete 2026 data specs, HDF5 hierarchy, and search parameters.
 - [`docs/SAR_PHYSICS_AND_ALGORITHMS.md`](file:///home/hashim/Data/Projects/SARS/docs/SAR_PHYSICS_AND_ALGORITHMS.md): False-color RGB composite recipes, speckle math, and physical drivers.
 - [`docs/RECOMMENDED_TECH_STACK.md`](file:///home/hashim/Data/Projects/SARS/docs/RECOMMENDED_TECH_STACK.md): System architecture and folder structure.
-- [`docs/DATA_SOURCES_AND_ACQUISITION.md`](file:///home/hashim/Data/Projects/SARS/docs/DATA_SOURCES_AND_ACQUISITION.md): ASF download scripts, ancillary layers, and study region bounding boxes.
+- [`docs/DATA_SOURCES_AND_ACQUISITION.md`](file:///home/hashim/Data/Projects/SARS/docs/DATA_SOURCES_AND_ACQUISITION.md): ASF download scripts, satellite imagery tile APIs, and bounding boxes.
 - [`docs/BEST_CODING_PRACTICES.md`](file:///home/hashim/Data/Projects/SARS/docs/BEST_CODING_PRACTICES.md): Python chunking, coordinate transformations, and frontend design standards.
 - [`docs/AI_AGENT_HACKATHON_PLAYBOOK.md`](file:///home/hashim/Data/Projects/SARS/docs/AI_AGENT_HACKATHON_PLAYBOOK.md): AI agent hackathon rules (zero placeholders, fail-safe fallbacks, 60fps HUD).
 - [`docs/PROMPT_TEMPLATES_FOR_AGENTS.md`](file:///home/hashim/Data/Projects/SARS/docs/PROMPT_TEMPLATES_FOR_AGENTS.md): Ready-to-copy prompts to scaffold components & scripts in 1 shot.
 - [`.cursorrules`](file:///home/hashim/Data/Projects/SARS/.cursorrules) & [`.github/copilot-instructions.md`](file:///home/hashim/Data/Projects/SARS/.github/copilot-instructions.md): IDE & GitHub Copilot agent directives.
+
+---
+
+## 4. Backend Endpoints for Frontend (FastAPI at `/api`)
+- `GET /api/hotspots`: Returns the 4 Pakistan dots to plot on the map:
+  - `indus` (Lat: 26.85, Lon: 68.12) — Cyan `#00F0FF`
+  - `quetta` (Lat: 30.18, Lon: 67.01) — Amber `#F59E0B`
+  - `islamabad` (Lat: 33.72, Lon: 73.06) — Emerald `#10B981`
+  - `siachen` (Lat: 35.42, Lon: 77.10) — Sky Blue `#38BDF8`
+- `GET /api/hotspots/{id}`: Returns the complete 5-step presentation dossier (`timeline`, `pain_points`, `drivers`, `tipping_point_2030`, `precautionary_measures`), telemetry metrics ($HH, HV, \varepsilon$), and Web Audio sonification parameters.
+
+---
+
+## 5. Free Satellite Tile APIs for the Map
+Use these free tile URLs directly in Leaflet / MapLibre (no API key needed):
+- **Satellite Basemap (ESRI World Imagery):**  
+  `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`
+- **Dark Mode Tactical Basemap (CartoDB Dark Matter):**  
+  `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png`
+- **NASA GIBS True-Color Satellite Imagery (Daily Terra/MODIS):**  
+  `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/2022-08-30/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`
 
 ---
 

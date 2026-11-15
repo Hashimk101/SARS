@@ -68,7 +68,50 @@ Selecting an area with dramatic dynamic change guarantees high visual and scient
 
 ---
 
-## 4. Synthetic / Mock Data Strategy (Zero-Blocker Development)
-If live NISAR 2026 granules are undergoing calibration reprocessing or ASF download speeds are constrained during the hackathon:
-- **Use Sentinel-1 GRD or ALOS-2 PALSAR-2 as proxy:** Convert dual-pol SAR data into NISAR L2 GCOV-equivalent HDF5 structure using the provided preprocessing script.
-- Ensure the frontend and scientific calculations remain 100% compliant with NISAR GCOV HDF5 layer specifications.
+## 4. Real Satellite Data & Proxy Archives (Where to Get Imagery Now)
+
+Since NISAR is NASA's newest flagship, the NASA challenge explicitly encourages teams to utilize proven operational satellites as proxies and complementary verification sources:
+
+### A. Sentinel-1 SAR (C-Band Synthetic Aperture Radar — 10 Years of Data!)
+The closest operational sibling to NISAR. Free, open, and covers Pakistan every 6 to 12 days since 2014.
+- **Provider:** European Space Agency (ESA) & NASA ASF DAAC.
+- **Product Type:** `GRD` (Ground Range Detected, High Resolution).
+- **Polarizations:** Dual-pol `VV + VH` (or `HH + HV`).
+- **How to Download via Python:**
+  ```python
+  import asf_search as asf
+  results = asf.search(
+      platform=asf.PLATFORM.SENTINEL1,
+      processingLevel='GRD_HD',
+      intersectsWith='POLYGON((67.5 25.5, 69.8 25.5, 69.8 28.5, 67.5 28.5, 67.5 25.5))',
+      start='2022-08-15T00:00:00Z',
+      end='2022-09-05T23:59:59Z'
+  )
+  print(f"Found {len(results)} real SAR scenes for Pakistan floods!")
+  # results.download(path='./data/sar_granules')
+  ```
+
+### B. Sentinel-2 (High-Resolution 10m Optical Satellite Imagery)
+- **Use in App:** Provides the "Cloudy Optical" side of the split-screen swipe slider to prove how clouds blind optical sensors while radar pierces through.
+- **Access Portal:** [Copernicus Data Space Browser](https://browser.dataspace.copernicus.eu/)
+- **Direct GeoTIFF Downloads:** AWS Open Data `s3://sentinel-s2-l2a/`.
+
+### C. NASA GIBS (Global Imagery Browse Services — 100% Free Live Tile Streaming!)
+NASA operates a free, public tile API that delivers real daily satellite imagery across the globe. You can plug these directly into Leaflet or MapLibre:
+- **MODIS Terra True-Color Imagery (August 2022 Pakistan Floods):**
+  `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/2022-08-30/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`
+- **VIIRS Nighttime Day/Night Band (Nighttime Surface Lights):**
+  `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_SNPP_DayNightBand_AtSensor_M15/default/2022-08-30/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg`
+
+---
+
+## 5. Free Satellite Basemap APIs for the Web Frontend (Zero API Key Needed)
+
+Claude and the frontend developer can use these URLs directly inside Leaflet or MapLibre:
+
+| Map Style | Tile URL Template | Attribution |
+| :--- | :--- | :--- |
+| **ESRI High-Res Satellite** | `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}` | Esri, Maxar, Earthstar Geographics |
+| **CartoDB Dark Matter** | `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png` | CartoDB & OpenStreetMap |
+| **OpenStreetMap Standard** | `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png` | OpenStreetMap contributors |
+| **NASA GIBS TrueColor** | `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/2022-08-30/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg` | NASA Earthdata GIBS |

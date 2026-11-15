@@ -53,12 +53,19 @@ Consult these documentation files in `docs/` before generating code:
 ---
 
 ## 4. Backend Endpoints for Frontend (FastAPI at `/api`)
+- `GET /api/health`: Health status, version (`2.1.0`), and supported satellite missions.
 - `GET /api/hotspots`: Returns the 4 Pakistan dots to plot on the map:
-  - `indus` (Lat: 26.85, Lon: 68.12) — Cyan `#00F0FF`
-  - `quetta` (Lat: 30.18, Lon: 67.01) — Amber `#F59E0B`
-  - `islamabad` (Lat: 33.72, Lon: 73.06) — Emerald `#10B981`
-  - `siachen` (Lat: 35.42, Lon: 77.10) — Sky Blue `#38BDF8`
-- `GET /api/hotspots/{id}`: Returns the complete 5-step presentation dossier (`timeline`, `pain_points`, `drivers`, `tipping_point_2030`, `precautionary_measures`), telemetry metrics ($HH, HV, \varepsilon$), and Web Audio sonification parameters.
+  - `indus` (Lat: 26.85, Lon: 68.10) — Sky `#38BDF8`
+  - `quetta` (Lat: 30.175, Lon: 66.984) — Orange `#F97316`
+  - `islamabad` (Lat: 33.729, Lon: 73.093) — Emerald `#10B981`
+  - `siachen` (Lat: 35.421, Lon: 77.109) — Purple `#A855F7`
+- `GET /api/hotspots/{id}`: Returns the complete 5-chapter presentation dossier (`timeline`, `pain_points`, `drivers`, `tipping_point_2030`, `precautionary_measures`), radar telemetry metrics ($HH, HV, \varepsilon$), live soil moisture, live NASA ASF SAR granules, and Web Audio sonification parameters.
+- `GET /api/hotspots/{id}/timeline`: Multi-date sensor time series for plotting interactive graphs (Recharts / Chart.js).
+- `GET /api/hotspots/{id}/future-simulation?year=...&scenario=...`: Dynamic 2026–2050 scenario engine (`current_trend`, `accelerated`, `controlled`) with Monte-Carlo 500-draw data for Quetta.
+- `GET /api/hotspots/{id}/figures`: Catalog of pre-rendered high-res NISAR interferograms, damage zones, and flood maps.
+- `GET /api/figures/{figure_path}`: Direct PNG/JPEG image streamer from repository assets.
+- `GET /api/satellites/query?lat=...&lon=...`: Universal coordinate query for any location on Earth.
+- `GET /api/satellites/layers`: Free tile layers for map basemaps (ESRI, CartoDB, NASA GIBS).
 
 ---
 

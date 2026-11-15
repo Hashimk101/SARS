@@ -49,3 +49,16 @@ Consult these documentation files in `docs/` before generating code:
 - [`docs/AI_AGENT_HACKATHON_PLAYBOOK.md`](file:///home/hashim/Data/Projects/SARS/docs/AI_AGENT_HACKATHON_PLAYBOOK.md): AI agent hackathon rules (zero placeholders, fail-safe fallbacks, 60fps HUD).
 - [`docs/PROMPT_TEMPLATES_FOR_AGENTS.md`](file:///home/hashim/Data/Projects/SARS/docs/PROMPT_TEMPLATES_FOR_AGENTS.md): Ready-to-copy prompts to scaffold components & scripts in 1 shot.
 - [`.cursorrules`](file:///home/hashim/Data/Projects/SARS/.cursorrules) & [`.github/copilot-instructions.md`](file:///home/hashim/Data/Projects/SARS/.github/copilot-instructions.md): IDE & GitHub Copilot agent directives.
+
+---
+
+## 4. Backend Endpoints (FastAPI at `/api/index.py`)
+- `GET /api/health`: Health status, version (`2.1.0`), and supported missions.
+- `GET /api/hotspots`: 4 Pakistan dots summary (`indus`, `quetta`, `islamabad`, `siachen`).
+- `GET /api/hotspots/{id}`: Complete 5-chapter presentation dossier, radar HDF5 schema, live soil moisture, live NASA ASF SAR granules, and sonification parameters.
+- `GET /api/hotspots/{id}/timeline`: Multi-date sensor time series for graphs.
+- `GET /api/hotspots/{id}/future-simulation?year=...&scenario=...`: 2026–2050 simulation engine.
+- `GET /api/hotspots/{id}/figures`: Catalog of pre-rendered high-res NISAR interferograms, damage zones, and flood maps.
+- `GET /api/figures/{figure_path}`: Figure image streamer.
+- `GET /api/satellites/query`: Universal coordinate query.
+- `GET /api/satellites/layers`: Free map tile layers.

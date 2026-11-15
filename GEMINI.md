@@ -57,6 +57,7 @@ Consult these documentation files in `docs/` before generating code:
 - `GET /api/hotspots`: 4 Pakistan dots summary (`indus`, `quetta`, `islamabad`, `siachen`).
 - `GET /api/hotspots/{id}`: Complete 5-chapter presentation dossier, radar HDF5 schema, live soil moisture, live NASA ASF SAR granules, and sonification parameters.
 - `GET /api/hotspots/{id}/timeline`: Multi-date sensor time series for graphs.
+- `GET /api/hotspots/{id}/drivers`: Machine Learning driver feature attribution (Random Forest permutation importance).
 - `GET /api/hotspots/{id}/future-simulation?year=...&scenario=...`: 2026–2050 simulation engine.
 - `GET /api/hotspots/{id}/figures`: Catalog of pre-rendered high-res NISAR interferograms, damage zones, and flood maps.
 - `GET /api/figures/{figure_path}`: Figure image streamer.

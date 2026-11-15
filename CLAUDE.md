@@ -61,6 +61,7 @@ Consult these documentation files in `docs/` before generating code:
   - `siachen` (Lat: 35.421, Lon: 77.109) — Purple `#A855F7`
 - `GET /api/hotspots/{id}`: Returns the complete 5-chapter presentation dossier (`timeline`, `pain_points`, `drivers`, `tipping_point_2030`, `precautionary_measures`), radar telemetry metrics ($HH, HV, \varepsilon$), live soil moisture, live NASA ASF SAR granules, and Web Audio sonification parameters.
 - `GET /api/hotspots/{id}/timeline`: Multi-date sensor time series for plotting interactive graphs (Recharts / Chart.js).
+- `GET /api/hotspots/{id}/drivers`: Machine Learning driver feature attribution (Random Forest permutation importance & SHAP equivalent) explaining what caused the crisis.
 - `GET /api/hotspots/{id}/future-simulation?year=...&scenario=...`: Dynamic 2026–2050 scenario engine (`current_trend`, `accelerated`, `controlled`) with Monte-Carlo 500-draw data for Quetta.
 - `GET /api/hotspots/{id}/figures`: Catalog of pre-rendered high-res NISAR interferograms, damage zones, and flood maps.
 - `GET /api/figures/{figure_path}`: Direct PNG/JPEG image streamer from repository assets.

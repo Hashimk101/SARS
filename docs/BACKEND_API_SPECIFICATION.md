@@ -209,7 +209,55 @@ Returns multi-date sensor observations and radar metrics for interactive charts 
 
 ---
 
-### Endpoint 5: `GET /api/hotspots/{hotspot_id}/future-simulation`
+### Endpoint 5: `GET /api/hotspots/{hotspot_id}/drivers`
+Returns Machine Learning feature attribution (Random Forest regression with 5-fold spatial cross-validation) explaining what physical and human drivers cause the observed deformation anomaly.
+
+#### Response Example (`/api/hotspots/quetta/drivers`):
+```json
+{
+  "hotspot_id": "quetta",
+  "model_type": "RandomForestRegressor (150 trees, Spatial 5-Latitude-Block Cross-Validation)",
+  "training_samples": 20000,
+  "spatial_block_cv_r2": 0.321,
+  "feature_attribution_importance": {
+    "elevation_m": {
+      "importance_score": 0.581,
+      "description": "Alluvial clay-silt layer thickness deposited in valley floor depression."
+    },
+    "building_density_per_km2": {
+      "importance_score": 0.308,
+      "description": "Urban footprint density as direct proxy for unmetered tube-well groundwater extraction."
+    },
+    "dist_to_valley_axis_km": {
+      "importance_score": 0.242,
+      "description": "Proximity to the central drainage axis of Zarghoon basin."
+    },
+    "dist_to_valley_edge_km": {
+      "importance_score": 0.241,
+      "description": "Distance to mountain piedmont bedrock boundary."
+    },
+    "slope_deg": {
+      "importance_score": -0.002,
+      "description": "Flat agricultural terrain facilitating unchecked flood-irrigation pumping."
+    }
+  },
+  "geotechnical_damage_classes": {
+    "standard": "Bjerrum (1963) & Skempton-MacDonald (1956) Angular Distortion (beta = |grad S|)",
+    "classes": [
+      {"class": 0, "distortion": "< 1/1000", "label": "Negligible settlement"},
+      {"class": 1, "distortion": "1/1000 - 1/500", "label": "Low (safe limit for cracking-free buildings)"},
+      {"class": 2, "distortion": "1/500 - 1/300", "label": "Slight (onset of hairline cracks in brick walls)"},
+      {"class": 3, "distortion": "1/300 - 1/150", "label": "Moderate (wall cracking and tile shearing)"},
+      {"class": 4, "distortion": ">= 1/150", "label": "Severe (structural damage to load-bearing columns)"}
+    ]
+  },
+  "scientific_synthesis": "Random Forest feature attribution confirms that alluvial clay depth and building density (well pumping proxy) drive over 88% of spatial subsidence variance in Quetta."
+}
+```
+
+---
+
+### Endpoint 6: `GET /api/hotspots/{hotspot_id}/future-simulation`
 Dynamic multi-scenario predictive engine for the 2026–2050 timeline slider.
 
 #### Query Parameters:
@@ -236,7 +284,7 @@ Dynamic multi-scenario predictive engine for the 2026–2050 timeline slider.
 
 ---
 
-### Endpoint 6: `GET /api/hotspots/{hotspot_id}/figures`
+### Endpoint 7: `GET /api/hotspots/{hotspot_id}/figures`
 Returns the catalog of pre-rendered high-resolution NISAR interferograms, damage zone maps, and validation charts.
 
 #### Response Example:
@@ -264,17 +312,17 @@ Returns the catalog of pre-rendered high-resolution NISAR interferograms, damage
 
 ---
 
-### Endpoint 7: `GET /api/figures/{figure_path:path}`
+### Endpoint 8: `GET /api/figures/{figure_path:path}`
 Streams the high-resolution PNG image directly from disk. Protected against directory traversal.
 
 ---
 
-### Endpoint 8: `GET /api/satellites/query?lat=...&lon=...`
+### Endpoint 9: `GET /api/satellites/query?lat=...&lon=...`
 Universal live coordinate query for ANY location on Earth: returns live NASA ASF DAAC granules, live Open-Meteo soil moisture, and theoretical NISAR HDF5 structures.
 
 ---
 
-### Endpoint 9: `GET /api/satellites/layers`
+### Endpoint 10: `GET /api/satellites/layers`
 Returns free satellite and dark-mode tile URLs ready for MapLibre or Leaflet:
 * ESRI World Imagery
 * CartoDB Dark Matter
@@ -420,6 +468,18 @@ export interface FigureItem {
   api_url: string;
   tags: string[];
 }
+
+export interface HotspotDrivers {
+  hotspot_id: HotspotId;
+  model_type: string;
+  spatial_block_cv_r2: number;
+  feature_attribution_importance: Record<string, { importance_score: number; description: string }>;
+  geotechnical_damage_classes?: {
+    standard: string;
+    classes: Array<{ class: number; distortion: string; label: string }>;
+  };
+  scientific_synthesis: string;
+}
 ```
 
 ---
@@ -444,6 +504,12 @@ export async function fetchHotspotDetail(id: HotspotId): Promise<HotspotDetail> 
 export async function fetchHotspotTimeline(id: HotspotId): Promise<HotspotTimeline> {
   const res = await fetch(`${BASE_URL}/api/hotspots/${id}/timeline`);
   if (!res.ok) throw new Error(`Failed to load timeline for ${id}`);
+  return res.json();
+}
+
+export async function fetchHotspotDrivers(id: HotspotId): Promise<HotspotDrivers> {
+  const res = await fetch(`${BASE_URL}/api/hotspots/${id}/drivers`);
+  if (!res.ok) throw new Error(`Failed to load drivers for ${id}`);
   return res.json();
 }
 

@@ -70,6 +70,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def fix_vercel_path(request: Request, call_next):
+    # When deployed on Vercel, rewrites forward subroutes via ?__route=
+    route = request.query_params.get("__route")
+    if route is not None:
+        clean_route = route.strip("/")
+        request.scope["path"] = f"/api/{clean_route}" if clean_route else "/api"
+    elif request.scope.get("path") == "/api/index.py":
+        request.scope["path"] = "/api"
+    return await call_next(request)
+
 BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 
 # Load scientific machine learning models and Monte-Carlo simulation caches

@@ -4,8 +4,12 @@
   "outputDirectory": "frontend/dist",
   "rewrites": [
     {
+      "source": "/api",
+      "destination": "/api/index.py?__route="
+    },
+    {
       "source": "/api/(.*)",
-      "destination": "/api/index.py"
+      "destination": "/api/index.py?__route=$1"
     },
     {
       "source": "/((?!api/|assets/|favicon.svg).*)",

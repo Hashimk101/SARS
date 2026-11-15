@@ -20,7 +20,7 @@ import urllib.request
 import urllib.parse
 from typing import List, Dict, Any, Optional
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from api.models_cache import HOTSPOT_MODELS
@@ -30,8 +30,22 @@ app = FastAPI(
     description="Full Backend API for NASA Space Apps 2026: Dancing with the SARs",
     version="2.1.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    redirect_slashes=False
 )
+
+@app.exception_handler(404)
+async def custom_404_handler(request: Request, exc):
+    return JSONResponse(
+        status_code=404,
+        content={
+            "detail": f"Path '{request.url.path}' not found.",
+            "received_url_path": request.url.path,
+            "scope_path": request.scope.get("path"),
+            "scope_root_path": request.scope.get("root_path"),
+            "docs_url": "/docs"
+        }
+    )
 
 # Enable CORS for local development, production, and Vercel hosting
 app.add_middleware(

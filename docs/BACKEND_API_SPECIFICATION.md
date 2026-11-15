@@ -211,7 +211,22 @@ Returns the summary list of all 4 hotspots to render the dots on the Pakistan ma
 
 ---
 
-## 4. TypeScript Interfaces for Claude & Frontend
+### Endpoint 3: `GET /api/satellites/query?lat={lat}&lon={lon}`
+Universal Satellite Query for **any coordinate** on Earth.
+1. Live queries NASA Alaska Satellite Facility (ASF DAAC) Search API for real SAR granules over that location.
+2. Live queries Open-Meteo for real-time soil moisture and precipitation.
+3. Returns the NISAR HDF5 extraction structure and decibel formula.
+
+#### Example Call:
+`GET /api/satellites/query?lat=30.18&lon=67.01`
+
+---
+
+### Endpoint 4: `GET /api/satellites/layers`
+Returns pre-configured, zero-API-key satellite map tile URLs for Leaflet or MapLibre:
+* **`satellite_basemap`**: ESRI High-Resolution World Imagery
+* **`tactical_dark`**: CartoDB Dark Matter
+* **`nasa_gibs_optical`**: NASA GIBS Terra/MODIS TrueColor (August 2022 Flood Peak)
 
 Claude and the frontend teammate can copy-paste these types directly into their codebase (`web/src/types/hotspot.ts`):
 
@@ -262,6 +277,26 @@ export interface StoryChapter {
   measures?: Array<{ priority: string; title: string; desc: string }>;
 }
 
+export interface AsfGranule {
+  scene_name: string;
+  platform: string;
+  polarization: string;
+  flight_direction: string;
+  acquisition_time: string;
+  browse_image_url: string | null;
+  download_url: string;
+  file_size_mb: number;
+  orbit: number;
+  footprint?: any;
+}
+
+export interface LiveEnvironmental {
+  soil_moisture_topsoil_m3m3: number;
+  soil_moisture_subsurface_m3m3: number;
+  current_precipitation_mm: number;
+  timestamp: string;
+}
+
 export interface HotspotDetail {
   id: HotspotId;
   name: string;
@@ -275,6 +310,8 @@ export interface HotspotDetail {
   radar_telemetry: RadarTelemetry;
   sonification: SonificationParams;
   story_chapters: StoryChapter[];
+  live_environmental?: LiveEnvironmental;
+  nasa_asf_granules?: AsfGranule[];
 }
 ```
 

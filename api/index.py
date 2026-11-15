@@ -46,7 +46,7 @@ if (FRONTEND_DIST / "assets").is_dir():
 async def custom_404_handler(request: Request, exc):
     # SPA Client-Side Routing: if not an /api/ route, serve index.html
     index_file = FRONTEND_DIST / "index.html"
-    if not request.url.path.startswith("/api/") and index_file.is_file():
+    if not request.url.path.startswith("/api/") and not request.url.path.startswith("/assets/") and index_file.is_file():
         return FileResponse(path=str(index_file), media_type="text/html")
     
     return JSONResponse(
@@ -56,6 +56,7 @@ async def custom_404_handler(request: Request, exc):
             "received_url_path": request.url.path,
             "scope_path": request.scope.get("path"),
             "scope_root_path": request.scope.get("root_path"),
+            "headers": dict(request.headers),
             "docs_url": "/docs"
         }
     )

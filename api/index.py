@@ -23,6 +23,7 @@ from typing import List, Dict, Any, Optional
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from api.models_cache import HOTSPOT_MODELS
 
 app = FastAPI(
@@ -34,8 +35,20 @@ app = FastAPI(
     redirect_slashes=False
 )
 
+BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+FRONTEND_DIST = BASE_DIR / "frontend" / "dist"
+
+# Mount static compiled assets if available
+if (FRONTEND_DIST / "assets").is_dir():
+    app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIST / "assets")), name="assets")
+
 @app.exception_handler(404)
 async def custom_404_handler(request: Request, exc):
+    # SPA Client-Side Routing: if not an /api/ route, serve index.html
+    index_file = FRONTEND_DIST / "index.html"
+    if not request.url.path.startswith("/api/") and index_file.is_file():
+        return FileResponse(path=str(index_file), media_type="text/html")
+    
     return JSONResponse(
         status_code=404,
         content={
@@ -683,11 +696,7 @@ HOTSPOTS_FIGURES_DB: Dict[str, List[Dict[str, Any]]] = {
 # API ENDPOINTS
 # ============================================================================
 
-@app.get("/")
-def api_root():
-    """
-    Root status and API navigation index for SAR-Pulse.
-    """
+def get_api_catalog():
     return {
         "status": "online",
         "service": "SAR-Pulse Multi-Mission Satellite Fusion API",
@@ -707,6 +716,33 @@ def api_root():
             "satellite_layers": "/api/satellites/layers"
         }
     }
+
+
+@app.get("/")
+def api_root():
+    """
+    Root endpoint for SAR-Pulse. Serves interactive React SPA if built, or API metadata.
+    """
+    index_file = FRONTEND_DIST / "index.html"
+    if index_file.is_file():
+        return FileResponse(path=str(index_file), media_type="text/html")
+    return get_api_catalog()
+
+
+@app.get("/api")
+def api_index():
+    """
+    API navigation and service catalog.
+    """
+    return get_api_catalog()
+
+
+@app.get("/favicon.svg")
+def favicon():
+    fav = FRONTEND_DIST / "favicon.svg"
+    if fav.is_file():
+        return FileResponse(path=str(fav), media_type="image/svg+xml")
+    raise HTTPException(status_code=404, detail="Favicon not found")
 
 
 @app.get("/api/health")

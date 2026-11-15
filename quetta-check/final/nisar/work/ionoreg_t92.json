@@ -1,0 +1,74 @@
+[
+ {
+  "pair": "0620->0702",
+  "slope_raw": 0.16305497047931597,
+  "slope_nonplanar": 0.6582772861718315,
+  "corr_nonplanar": 0.24501904936026866,
+  "iono_std_nonplanar": 0.39744414006698847,
+  "unw_std_nonplanar": 1.067788201004337
+ },
+ {
+  "pair": "0702->0714",
+  "slope_raw": 1.253761048727556,
+  "slope_nonplanar": 1.1146582298252141,
+  "corr_nonplanar": 0.4600447123356663,
+  "iono_std_nonplanar": 0.44430375037941194,
+  "unw_std_nonplanar": 1.0765189091908742
+ },
+ {
+  "pair": "0714->0726",
+  "slope_raw": 1.2736978640999914,
+  "slope_nonplanar": -0.10895991925900833,
+  "corr_nonplanar": -0.025352997679468244,
+  "iono_std_nonplanar": 0.8100910486129178,
+  "unw_std_nonplanar": 3.481539199634393
+ },
+ {
+  "pair": "0726->0819",
+  "slope_raw": 1.2157019842715058,
+  "slope_nonplanar": 1.140210674642665,
+  "corr_nonplanar": 0.5884652230808343,
+  "iono_std_nonplanar": 0.7746862839796456,
+  "unw_std_nonplanar": 1.5010327473022536
+ },
+ {
+  "pair": "0819->0831",
+  "slope_raw": 1.285097283847691,
+  "slope_nonplanar": -1.7042306137270278,
+  "corr_nonplanar": -0.15676901028387807,
+  "iono_std_nonplanar": 0.29476703421713085,
+  "unw_std_nonplanar": 3.2044024690893704
+ },
+ {
+  "pair": "0831->0912",
+  "slope_raw": 1.1651837411544945,
+  "slope_nonplanar": -0.5507362485749918,
+  "corr_nonplanar": -0.05509447498185536,
+  "iono_std_nonplanar": 0.26809134980964056,
+  "unw_std_nonplanar": 2.6798989248594
+ },
+ {
+  "pair": "0912->0924",
+  "slope_raw": 1.3507991213914552,
+  "slope_nonplanar": 0.6369850747740691,
+  "corr_nonplanar": 0.17257828168381734,
+  "iono_std_nonplanar": 0.3349000382943113,
+  "unw_std_nonplanar": 1.2361133965024576
+ },
+ {
+  "pair": "0924->1006",
+  "slope_raw": 1.3050114321886699,
+  "slope_nonplanar": -1.7195257943890652,
+  "corr_nonplanar": -0.1807255334061446,
+  "iono_std_nonplanar": 0.32052101119482157,
+  "unw_std_nonplanar": 3.0496196968171394
+ },
+ {
+  "pair": "1006->1018",
+  "slope_raw": 1.114936500428144,
+  "slope_nonplanar": 1.0862619884122147,
+  "corr_nonplanar": 0.4253530299759659,
+  "iono_std_nonplanar": 0.39061752829245067,
+  "unw_std_nonplanar": 0.9975548381907539
+ }
+]

@@ -1,0 +1,30 @@
+{
+ "pair": [
+  "2025-11-25",
+  "2026-10-27"
+ ],
+ "days": 336,
+ "multilook_m": 60.0,
+ "coh_mean_all": 0.10831150412559509,
+ "coh_mean_bowl": 0.14129920303821564,
+ "coh_mean_outside": 0.10241127014160156,
+ "coh_median_bowl": 0.12149783968925476,
+ "frac_coh_gt_0p3_bowl": 0.06250936329588015,
+ "frac_coh_gt_0p3_all": 0.023203359762499546,
+ "ref_phase_rad": -1.2580645084381104,
+ "wavelength_m": 0.2419632429378531,
+ "fringe_cm": 12.098162146892655,
+ "versions": [
+  "1.0.2",
+  "1.0.20"
+ ],
+ "coreg": {
+  "patch": 512,
+  "median_row_px": -0.2670736163854599,
+  "median_col_px": 1.3104255348443985,
+  "n_bad": 61,
+  "n": 304
+ },
+ "highpass_phase_city_3km_rad": -1.1578251123428345,
+ "highpass_los_cm_city_away_positive": -2.2293715476989746
+}

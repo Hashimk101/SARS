@@ -1,0 +1,111 @@
+{
+ "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/unwrappedPhase": {
+  "DIMENSION_LIST": [
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]"
+  ],
+  "_FillValue": NaN,
+  "description": "Unwrapped interferogram between HH layers",
+  "grid_mapping": "projection",
+  "max_value": 19.54778480529785,
+  "mean_value": 3.1055779457092285,
+  "min_value": -16.367446899414062,
+  "sample_stddev": 6.503530502319336,
+  "units": "radians"
+ },
+ "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/ionospherePhaseScreen": {
+  "DIMENSION_LIST": [
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]"
+  ],
+  "_FillValue": NaN,
+  "description": "Ionosphere phase screen",
+  "grid_mapping": "projection",
+  "max_value": -6.971088409423828,
+  "mean_value": -16.656742095947266,
+  "min_value": -30.714256286621094,
+  "sample_stddev": 5.795142650604248,
+  "units": "radians"
+ },
+ "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/ionospherePhaseScreenUncertainty": {
+  "DIMENSION_LIST": [
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]"
+  ],
+  "_FillValue": NaN,
+  "description": "Uncertainty of the ionosphere phase screen",
+  "grid_mapping": "projection",
+  "max_value": 4.016589164733887,
+  "mean_value": 1.288475513458252,
+  "min_value": 0.46266359090805054,
+  "sample_stddev": 0.6586777567863464,
+  "units": "radians"
+ },
+ "/science/LSAR/GUNW/grids/frequencyA/unwrappedInterferogram/HH/coherenceMagnitude": {
+  "DIMENSION_LIST": [
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]"
+  ],
+  "_FillValue": NaN,
+  "description": "Coherence magnitude between HH layers",
+  "grid_mapping": "projection",
+  "max_value": 0.9789419174194336,
+  "mean_value": 0.5365282297134399,
+  "min_value": 0.001374987419694662,
+  "sample_stddev": 0.23620425164699554,
+  "units": "1"
+ },
+ "/science/LSAR/GUNW/metadata/radarGrid/losUnitVectorX": {
+  "DIMENSION_LIST": [
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]"
+  ],
+  "_FillValue": NaN,
+  "description": "East component of the line-of-sight (LOS) unit vector, defined from the target to the sensor, expressed in the east-north-up (ENU) coordinate system with its origin at the target location",
+  "grid_mapping": "projection",
+  "long_name": "LOS unit vector X",
+  "units": "1",
+  "valid_max": 1.0,
+  "valid_min": -1.0
+ },
+ "/science/LSAR/GUNW/metadata/radarGrid/wetTroposphericPhaseScreen": {
+  "DIMENSION_LIST": [
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]"
+  ],
+  "_FillValue": NaN,
+  "description": "Wet component of the troposphere phase screen",
+  "grid_mapping": "projection",
+  "units": "radians"
+ },
+ "/science/LSAR/GUNW/metadata/radarGrid/slantRangeSolidEarthTidesPhase": {
+  "DIMENSION_LIST": [
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]"
+  ],
+  "_FillValue": NaN,
+  "description": "Solid Earth tides phase along slant range direction",
+  "grid_mapping": "projection",
+  "units": "radians"
+ },
+ "/science/LSAR/GUNW/metadata/radarGrid/hydrostaticTroposphericPhaseScreen": {
+  "DIMENSION_LIST": [
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]",
+   "[<HDF5 object reference>]"
+  ],
+  "_FillValue": NaN,
+  "description": "Hydrostatic component of the troposphere phase screen",
+  "grid_mapping": "projection",
+  "units": "radians"
+ },
+ "identification": {
+  "lookDirection": "Left",
+  "orbitPassDirection": "Descending",
+  "trackNumber": "20",
+  "frameNumber": "73"
+ }
+}

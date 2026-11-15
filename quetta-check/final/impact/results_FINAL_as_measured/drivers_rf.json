@@ -1,0 +1,20 @@
+{
+ "label": "NISAR vertical rate as measured",
+ "n_samples": 20000,
+ "spatial_block_cv_r2": 0.321081280708313,
+ "permutation_importance_heldout": {
+  "elevation_m": 0.580744967204103,
+  "dist_to_valley_axis_km": 0.24170080945600395,
+  "dist_to_valley_edge_km": 0.24120262608579254,
+  "slope_deg": -0.0024024090809430985,
+  "building_density_per_km2": 0.3076041814591994
+ },
+ "impurity_importance_fullfit": {
+  "elevation_m": 0.34130184951547043,
+  "dist_to_valley_axis_km": 0.13885708950776368,
+  "dist_to_valley_edge_km": 0.19763135607778368,
+  "slope_deg": 0.013423693532495609,
+  "building_density_per_km2": 0.30878601136648665
+ },
+ "caveat": "Correlative only; short NISAR record; spatially autocorrelated; building density is a proxy; block-CV R2 can be negative, which means no transferable skill."
+}
